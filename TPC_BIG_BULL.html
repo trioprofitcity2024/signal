@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TPC BIG BULL Generator</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap');
+        
+        body {
+            font-family: 'Orbitron', sans-serif;
+            background-color: #000000;
+            color: #00ff00;
+            margin: 0;
+            padding: 20px;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 3.5rem;
+            text-shadow: 0 0 20px #00ff00, 0 0 40px #00ff00;
+        }
+
+        form {
+            max-width: 700px;
+            background-color: #0a0a0a;
+            border: 2px solid #00ff00;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px auto;
+        }
+
+        label, input, button, select {
+            display: block;
+            width: 100%;
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+            color: #00ff00;
+            background-color: #000000;
+            border: 1px solid #00ff00;
+            padding: 10px;
+            border-radius: 5px;
+        }
+
+        button {
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .output {
+            max-width: 700px;
+            padding: 10px;
+            background: #0a0a0a;
+            border: 2px solid #00ff00;
+            border-radius: 10px;
+            margin: 20px auto;
+        }
+
+        .signal {
+            font-size: 1rem;
+            font-weight: bold;
+            margin-bottom: 5px;
+            padding: 5px;
+            border-bottom: 1px solid #00ff00;
+            cursor: pointer;
+        }
+
+        .copy-all-btn {
+            background-color: #00ff00;
+            color: #000000;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+
+        footer {
+            margin-top: 20px;
+            color: #00ff00;
+        }
+    </style>
+</head>
+<body>
+    <h1>TPC BIG BULL</h1>
+
+    <form id="signal-form">
+        <label for="start-time">Enter Start Time (HH:MM AM/PM):</label>
+        <input type="text" id="start-time" value="09:00 AM">
+
+        <label for="end-time">Enter End Time (HH:MM AM/PM):</label>
+        <input type="text" id="end-time" value="10:00 AM">
+
+        <label for="pair">Select Market Pair:</label>
+        <select id="pair">
+            <option value="AUD/USD | OTC | ">AUD/USD-OTC</option>
+            <option value="AUD/CAD | OTC | ">AUD/CAD-OTC</option>
+            <option value="AUD/CHF | OTC | ">AUD/CHF-OTC</option>
+            <option value="AUD/NZD | OTC | ">AUD/NZD-OTC</option>
+            <option value="BRL/USD | OTC | ">BRL/USD-OTC</option>
+            <option value="CAD/CHF | OTC | ">CAD/CHF-OTC</option>
+            <option value="CAD/JPY | OTC | ">CAD/JPY-OTC</option>
+            <option value="EUR/USD | OTC | ">EUR/USD-OTC</option>
+            <option value="EUR/CAD | OTC | ">EUR/CAD-OTC</option>
+            <option value="EUR/GBP | OTC | ">EUR/GBP-OTC</option>
+            <option value="EUR/USD | OTC | ">EUR/USD-OTC</option>
+            <option value="EUR/CHF | OTC | ">EUR/CHF-OTC</option>
+            <option value="EUR/NZD | OTC | ">EUR/NZD-OTC</option>
+            <option value="EUR/AUD | OTC | ">EUR/AUD-OTC</option>
+            <option value="EUR/CHF | OTC | ">EUR/CHF-OTC</option>
+            <option value="EUR/JPY | OTC | ">EUR/JPY-OTC</option>
+            <option value="EUR/SZD | OTC | ">EUR/SZD-OTC</option>
+            <option value="GBP/NZD | OTC | ">GBP/NZD-OTC</option>
+            <option value="GBP/JPY | OTC | ">GBP/JPY-OTC</option>
+            <option value="GBP/CAD | OTC | ">GBP/CAD-OTC</option>
+            <option value="GBP/AUD | OTC | ">GBP/AUD-OTC</option>
+            <option value="GBP/USD | OTC | ">GBP/USD-OTC</option>
+            <option value="NZD/JPY | OTC | ">NZD/JPY-OTC</option>
+            <option value="NZD/CAD | OTC | ">NZD/CAD-OTC</option>
+            <option value="NZD/USD | OTC | ">NZD/USD-OTC</option>
+            <option value="USD/EGP | OTC | ">USD/EGP-OTC</option>
+            <option value="USD/TRY | OTC | ">USD/TRY-OTC</option>
+            <option value="USD/PKR | OTC | ">USD/PKR-OTC</option>
+            <option value="USD/PHP | OTC | ">USD/PHP-OTC</option>
+            <option value="USD/INR | OTC | ">USD/INR-OTC</option>
+            <option value="USD/ARS | OTC | ">USD/ARS-OTC</option>
+            <option value="USD/MXN | OTC | ">USD/MXN-OTC</option>
+            <option value="USD/JPY | OTC | ">USD/JPY-OTC</option>
+            <option value="USD/DZD | OTC | ">USD/DZD-OTC</option>
+            <option value="USD/COP | OTC | ">USD/COP-OTC</option>
+            <option value="USD/IDR | OTC | ">USD/IDR-OTC</option>
+            <option value="USD/ZAR | OTC | ">USD/ZAR-OTC</option>
+            <option value="USD/NGN | OTC | ">USD/NGN-OTC</option>
+            <option value="USD/EGP | OTC | ">USD/EGP-OTC</option>
+            <option value="USD/DZD | OTC | ">USD/DZD-OTC</option>
+            <option value="USD/BDT | OTC | ">USD/BDT-OTC</option>
+            <option value="USD/DZD | OTC | ">USD/DZD-OTC</option>
+            <option value="Inte    | OTC | ">Inte-OTC</option>
+            <option value="Microsoft | OTC | ">Microsoft-OTC</option>
+            <option value="McDonald's | OTC | ">McDonald's-OTC</option>
+            <option value="Boeing Company | OTC | ">Boeing Company-
+        </select>
+
+        <label for="direction">Select Signal Direction:</label>
+        <select id="direction">
+            <option value="CALL">CALL</option>
+            <option value="PUT">PUT</option>
+        </select>
+
+        <button type="button" id="generate-button">Generate Signals</button>
+    </form>
+
+    <div id="output" class="output"></div>
+
+    <button id="copy-all-button" class="copy-all-btn" style="display:none;">Copy All Signals</button>
+
+    <footer>
+        TRIO PROFIT CITY  Signal Generator | All Rights Reserved
+    </footer>
+
+    <script>
+        // Helper function to convert time to minutes
+        function convertToMinutes(time) {
+            const [timeString, period] = time.split(' ');
+            let [hours, minutes] = timeString.split(':').map(Number);
+            if (period === 'PM' && hours !== 12) hours += 12;
+            if (period === 'AM' && hours === 12) hours = 0;
+            return hours * 60 + minutes;
+        }
+
+        // Fix: Corrected formatTime function
+        function formatTime(minutes) {
+            const hours = String(Math.floor(minutes / 60)).padStart(2, '0');
+            const mins = String(minutes % 60).padStart(2, '0');
+            return `${hours}:${mins}`;  // Corrected with backticks
+        }
+
+        // Generate random times between start and end time
+        function generateRandomTimes(startTime, endTime, count) {
+            const startMinutes = convertToMinutes(startTime);
+            const endMinutes = convertToMinutes(endTime);
+            let times = new Set();
+
+            while (times.size < count) {
+                let randomTime = Math.floor(Math.random() * (endMinutes - startMinutes) + startMinutes);
+                times.add(randomTime);
+            }
+
+            return Array.from(times).sort((a, b) => a - b).map(time => formatTime(time));
+        }
+
+        // Generate signals with random times, market pairs and directions
+        function generateSignals(startTime, endTime, selectedPair, selectedDirection) {
+            let randomTimes = generateRandomTimes(startTime, endTime, 10); // Generate 10 random signals
+
+            return randomTimes.map(time => ({
+                time: time,
+                pair: selectedPair,
+                direction: selectedDirection
+            }));
+        }
+
+        // Copy signal to clipboard
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                alert("Copied: " + text);
+            });
+        }
+
+        // Event listener for the Generate Signals button
+        document.getElementById('generate-button').addEventListener('click', function() {
+            const startTime = document.getElementById('start-time').value;
+            const endTime = document.getElementById('end-time').value;
+            const selectedPair = document.getElementById('pair').value;
+            const selectedDirection = document.getElementById('direction').value;
+
+            document.getElementById('output').innerHTML = '<div class="generating-signals">Generating Signals... Please wait...</div>';
+
+            setTimeout(() => {
+                const generatedSignals = generateSignals(startTime, endTime, selectedPair, selectedDirection);
+                
+                let outputHTML = "";
+                let allSignalsText = "";
+
+                generatedSignals.forEach(signal => {
+                    const signalText = `${signal.time} - ${signal.pair} - ${signal.direction}`;  // Fix: Added backticks for template literal
+                    allSignalsText += signalText + "\n";
+                    outputHTML += `<div class="signal" onclick="copyToClipboard('${signalText}')">${signalText}</div>`;
+                });
+
+                document.getElementById('output').innerHTML = outputHTML;
+                document.getElementById('copy-all-button').style.display = 'block';
+
+                document.getElementById('copy-all-button').onclick = function() {
+                    copyToClipboard(allSignalsText);
+                };
+            }, 2000);
+        });
+    </script>
+</body>
+</html>

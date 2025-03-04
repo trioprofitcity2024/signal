@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Trio Profit City - Futures Signal Generator</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      /* General Styles */
+      body {
+        font-family: "Roboto", sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #350047;
+        color: white;
+      }
+
+      h1 {
+        text-align: center;
+        color: white;
+        font-size: 2.4rem;
+        margin-top: 40px;
+        font-weight: 700;
+      }
+
+      .container {
+        width: 90%;
+        max-width: 1200px;
+        margin: 40px auto;
+        padding: 40px;
+        background-color: #350047;
+        box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.5);
+        border-radius: 12px;
+        display: none;
+        color: white;
+      }
+
+      .card {
+        background-color: #350047;
+        padding: 25px;
+        margin-top: 20px;
+        border-radius: 12px;
+        box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.5);
+        transition: all 0.3s ease-in-out;
+        color: white;
+      }
+
+      .card button {
+        background-color: #c201ff;
+        color: white;
+        font-weight: 600;
+        border: none;
+        cursor: pointer;
+        transition: background-color 0.3s ease, transform 0.3s ease;
+        display: block;
+        margin: 20px auto;
+        width: 50%;
+        padding: 12px;
+        border-radius: 6px;
+        font-size: 1rem;
+      }
+
+      .card button:hover {
+        background-color: #350047;
+        transform: translateY(-3px);
+      }
+
+      footer {
+        background-color: #350047;
+        color: white;
+        text-align: center;
+        padding: 20px;
+        margin-top: 40px;
+        border-top: 1px solid #c201ff;
+        position: relative;
+        bottom: 0;
+        width: 100%;
+      }
+
+      footer a {
+        color: white;
+        text-decoration: none;
+        font-weight: 600;
+      }
+
+      footer a:hover {
+        text-decoration: underline;
+      }
+
+      /* Input and Select Styles */
+      .input-group {
+        margin: 10px 0;
+      }
+
+      .input-group label {
+        display: block;
+        margin-bottom: 5px;
+        font-weight: 500;
+        color: white;
+      }
+
+      .input-group input,
+      .input-group select {
+        width: 100%;
+        padding: 12px;
+        border: 1px solid #c201ff;
+        border-radius: 6px;
+        background-color: #350047;
+        color: white;
+        font-size: 1rem;
+      }
+
+      /* Signal Output Styles */
+      .signal-output {
+        margin-top: 20px;
+        padding: 20px;
+        background-color: #350047;
+        border: 1px solid #c201ff;
+        border-radius: 12px;
+        color: white;
+        font-size: 1rem;
+        text-align: center;
+      }
+
+      .signal-box {
+        border: 2px solid #c201ff;
+        border-radius: 12px;
+        padding: 15px;
+        margin-top: 10px;
+        text-align: left;
+      }
+
+      .signal-box div {
+        margin: 5px 0;
+      }
+
+      .signal-box .call {
+        color: #00ff00; /* Green for CALL */
+      }
+
+      .signal-box .put {
+        color: #ff0000; /* Red for PUT */
+      }
+
+      /* Login Form Styles */
+      .login-container {
+        width: 90%;
+        max-width: 400px;
+        margin: 40px auto;
+        padding: 40px;
+        background-color: #350047;
+        box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.5);
+        border-radius: 12px;
+        text-align: center;
+      }
+
+      .login-container input {
+        width: 100%;
+        padding: 12px;
+        margin: 10px 0;
+        border: 1px solid #c201ff;
+        border-radius: 6px;
+        background-color: #350047;
+        color: white;
+        font-size: 1rem;
+      }
+
+      .login-container input::placeholder {
+        color: white;
+      }
+
+      .login-container button {
+        width: 100%;
+        padding: 12px;
+        margin-top: 20px;
+        background-color: #c201ff;
+        color: white;
+        border: none;
+        border-radius: 6px;
+        font-size: 1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: background-color 0.3s ease, transform 0.3s ease;
+      }
+
+      .login-container button:hover {
+        background-color: #350047;
+        transform: translateY(-3px);
+      }
+
+      /* Loader Styles */
+      .loader {
+        display: none;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.8);
+        z-index: 1000;
+      }
+
+      .spinner {
+        border: 4px solid #c201ff;
+        border-top: 4px solid transparent;
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        animation: spin 1s linear infinite;
+      }
+
+      @keyframes spin {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+
+      .animation-message {
+        display: none;
+        text-align: center;
+        margin-top: 20px;
+        color: #c201ff;
+        font-weight: 600;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Login Page -->
+    <div class="login-container" id="login-page">
+      <h1>LOGIN TO QUOTEX HACK 2.0</h1>
+      <form id="login-form">
+        <input type="text" id="username" placeholder="Username" required />
+        <input type="password" id="password" placeholder="Password" required />
+        <button type="submit">Login TPC</button>
+      </form>
+    </div>
+
+    <!-- Loader -->
+    <div class="loader" id="loader">
+      <div class="spinner"></div>
+      <p>Generating Signals...</p>
+    </div>
+
+    <!-- Main Page (Hidden Initially) -->
+    <div class="container" id="main-page">
+      <h1>QUOTEX HACK 2.0</h1>
+      <div class="card">
+        <h2 class="section-title red-text">Generate Trading Signals</h2>
+        <div class="input-group">
+          <label for="asset-select">Select Asset</label>
+          <select id="asset-select">
+            <option value="AUD/USD | OTC | ">AUD/USD-OTC</option>
+            <option value="AUD/CAD | OTC | ">AUD/CAD-OTC</option>
+            <option value="AUD/CHF | OTC | ">AUD/CHF-OTC</option>
+            <option value="AUD/NZD | OTC | ">AUD/NZD-OTC</option>
+            <option value="BRL/USD | OTC | ">BRL/USD-OTC</option>
+            <option value="CAD/CHF | OTC | ">CAD/CHF-OTC</option>
+            <option value="CAD/JPY | OTC | ">CAD/JPY-OTC</option>
+            <option value="EUR/USD | OTC | ">EUR/USD-OTC</option>
+            <option value="EUR/CAD | OTC | ">EUR/CAD-OTC</option>
+            <option value="EUR/GBP | OTC | ">EUR/GBP-OTC</option>
+            <option value="EUR/CHF | OTC | ">EUR/CHF-OTC</option>
+            <option value="EUR/NZD | OTC | ">EUR/NZD-OTC</option>
+            <option value="EUR/AUD | OTC | ">EUR/AUD-OTC</option>
+            <option value="EUR/JPY | OTC | ">EUR/JPY-OTC</option>
+            <option value="GBP/NZD | OTC | ">GBP/NZD-OTC</option>
+            <option value="GBP/JPY | OTC | ">GBP/JPY-OTC</option>
+            <option value="GBP/CAD | OTC | ">GBP/CAD-OTC</option>
+            <option value="GBP/AUD | OTC | ">GBP/AUD-OTC</option>
+            <option value="GBP/USD | OTC | ">GBP/USD-OTC</option>
+            <option value="NZD/JPY | OTC | ">NZD/JPY-OTC</option>
+            <option value="NZD/CAD | OTC | ">NZD/CAD-OTC</option>
+            <option value="NZD/USD | OTC | ">NZD/USD-OTC</option>
+            <option value="USD/JPY | OTC | ">USD/JPY-OTC</option>
+            <option value="USD/ZAR | OTC | ">USD/ZAR-OTC</option>
+          </select>
+        </div>
+        <div class="input-group">
+          <label for="signal-count">Number of Signals</label>
+          <input type="number" id="signal-count" value="1" min="1" max="110" />
+        </div>
+        <div class="input-group">
+          <label for="filter-select">Signal Type</label>
+          <select id="filter-select">
+            <option value="ALL">All</option>
+            <option value="CALL">CALL</option>
+            <option value="PUT">PUT</option>
+          </select>
+        </div>
+        <div class="input-group">
+          <label>
+            <input type="checkbox" id="backtest-filter" /> Filter Backtested
+            Signals (99% accuracy)
+          </label>
+        </div>
+        <button id="generate-signals">Quotex Hack</button>
+      </div>
+
+      <div class="signal-output" id="signal-list"></div>
+      <div class="animation-message">Signals generated successfully!</div>
+    </div>
+
+    <footer>
+      <p class="footer-text" style="color: red;">
+        &copy; TPC HRIDOY TRADER |
+        <a href="https://t.me/trioprofitcity" target="_blank" style="color: red;">
+          Join Our Telegram
+        </a>
+      </p>
+    </footer>
+
+    <script>
+      // Login Functionality
+      document
+        .getElementById("login-form")
+        .addEventListener("submit", function (event) {
+          event.preventDefault();
+
+          // Simple login validation
+          var username = document.getElementById("username").value;
+          var password = document.getElementById("password").value;
+
+          if (username === "TPC" && password === "TPC") {
+            // Show main page and hide login page
+            document.getElementById("login-page").style.display = "none";
+            document.getElementById("main-page").style.display = "block";
+          } else {
+            alert("Invalid username or password");
+          }
+        });
+
+      // Signal Generation Functionality
+      document
+        .getElementById("generate-signals")
+        .addEventListener("click", function () {
+          const signalCount = parseInt(document.getElementById("signal-count").value);
+
+          if (isNaN(signalCount) || signalCount < 1 || signalCount > 110) {
+            alert("Please enter a valid number of signals (1-110).");
+            return;
+          }
+
+          // Show the loader
+          document.getElementById("loader").style.display = "flex";
+
+          // Hide the previous messages and clear the signal list
+          document.querySelector(".animation-message").style.display = "none";
+          document.getElementById("signal-list").innerHTML = "";
+
+          setTimeout(function () {
+            generateSignals();
+            // Hide the loader after signals are generated
+            document.getElementById("loader").style.display = "none";
+            document.querySelector(".animation-message").style.display = "block";
+          }, 10000); // Loader display time is now 10 seconds
+        });
+
+      function generateSignals() {
+        const asset = document.getElementById("asset-select").value;
+        const signalCount = document.getElementById("signal-count").value;
+        const filter = document.getElementById("filter-select").value;
+        const backtestFilter = document.getElementById("backtest-filter").checked;
+
+        let signals = [];
+        for (let i = 0; i < signalCount; i++) {
+          let direction = Math.random() > 0.5 ? "CALL" : "PUT";
+          if (filter !== "ALL" && filter !== direction) {
+            continue;
+          }
+
+          // Simulate backtest accuracy if filter is active
+          if (backtestFilter && Math.random() > 0.95) {
+            continue;
+          }
+
+          let time = new Date();
+          time.setMinutes(time.getMinutes() + (i + 1) * 5);
+
+          // Formatting time in 24-hour format
+          const formattedTime = time.toLocaleTimeString([], {
+            hour: "2-digit",
+            minute: "2-digit",
+            hour12: false,
+          });
+
+          signals.push({
+            time: formattedTime,
+            asset,
+            direction,
+          });
+        }
+
+        displaySignals(signals);
+      }
+
+      function displaySignals(signals) {
+        const signalList = document.getElementById("signal-list");
+        signalList.innerHTML = ""; // Clear previous signals
+
+        signals.forEach((signal) => {
+          const signalBox = document.createElement("div");
+          signalBox.className = "signal-box";
+          signalBox.innerHTML = `
+            <div>❏ ${signal.time} - ${signal.asset} - ${signal.direction === "CALL" ? "𝙱𝚄𝚈" : "𝙿𝚄𝚃"}</div>
+          `;
+          signalList.appendChild(signalBox);
+        });
+      }
+    </script>
+  </body>
+</html>
